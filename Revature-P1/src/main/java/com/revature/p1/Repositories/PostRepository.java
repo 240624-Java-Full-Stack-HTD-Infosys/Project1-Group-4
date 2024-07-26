@@ -14,5 +14,5 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findPostByUserId(Integer userId);
     Post findPostByPostId(Integer postId);
     void deleteByPostId(Integer postId);
-
+    //this is the good code
 }
