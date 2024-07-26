@@ -29,7 +29,7 @@ public class LikeService {
     // create like for a post
     public void likePost(Integer userId, Integer postId) {
         User user = userRepo.findUserByUserId(userId);
-        Post post = postRepo.findPostByPostId(postId);
+        Post post = postRepo.findByPostId(postId);
         if (user != null && post != null) {
             user.getLikedPosts().add(post);
             post.getUsersWhoLikeThisPost().add(user);
@@ -40,7 +40,7 @@ public class LikeService {
     // delete like for a post
     public void unlikePost(Integer userId, Integer postId) {
         User user = userRepo.findUserByUserId(userId);
-        Post post = postRepo.findPostByPostId(postId);
+        Post post = postRepo.findByPostId(postId);
         if (user != null && post != null) {
             user.getLikedPosts().remove(post);
             post.getUsersWhoLikeThisPost().remove(post);
@@ -57,7 +57,7 @@ public class LikeService {
 
     // get post likes (usersWhoLikeThisPost)
     public List<User> getPostLikes(Integer postId) {
-        Post post = postRepo.findPostByPostId(postId);
+        Post post = postRepo.findByPostId(postId);
         return post.getUsersWhoLikeThisPost();
     }
 }

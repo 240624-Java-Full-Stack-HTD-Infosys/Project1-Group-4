@@ -10,9 +10,8 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
     // https://docs.spring.io/spring-data/jpa/docs/1.6.0.RELEASE/reference/html/jpa.repositories.html
-    @Query(value = "SELECT * FROM posts WHERE userId = :userId", nativeQuery = true)
-    List<Post> findPostByUserId(Integer userId);
-    Post findPostByPostId(Integer postId);
-    void deleteByPostId(Integer postId);
+    List<Post> findByUserId(int userId);
+    Post findByPostId(int postId);
+    void deleteByPostId(int postId);
 
 }

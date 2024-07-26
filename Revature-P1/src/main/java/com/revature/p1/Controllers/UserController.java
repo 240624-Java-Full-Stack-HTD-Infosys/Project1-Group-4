@@ -22,13 +22,13 @@ public class UserController {
 
     private final UserService userService;
     private final JwtTokenService tokenService;
-//    private final AuthDto authDto;
+    private final AuthDto authDto;
 
     @Autowired
-    public UserController(UserService userService, JwtTokenService tokenService) {
+    public UserController(UserService userService, JwtTokenService tokenService, AuthDto authDto) {
         this.userService = userService;
         this.tokenService = tokenService;
-//        this.authDto = authDto;
+        this.authDto = authDto;
     }
 
     @GetMapping("/user/{username}")
