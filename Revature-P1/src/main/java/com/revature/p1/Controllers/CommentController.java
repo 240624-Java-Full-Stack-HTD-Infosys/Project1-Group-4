@@ -11,13 +11,15 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-//    @GetMapping("/comments/ping")
-//    @ResponseStatus(HttpStatus.OK)
-//    public
-
-    @PostMapping("/comments")
+    @PostMapping("/comment")
     @ResponseStatus(HttpStatus.CREATED)
-    public Comment create(@RequestBody Comment cmt) {
-        return null;
+    public String create(@RequestBody Comment cmt) {
+        return "Good";
+    }
+
+    @GetMapping("/comment/{comment_id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Comment view(@PathVariable String id) {
+        return commentService.get(Integer.valueOf(id));
     }
 }

@@ -17,21 +17,21 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
 
     @Transactional
-    @Query("INSERT INTO comments (content, user_id, post_id, timestamp) VALUES (?1, ?2, ?3, ?4)")
+    @Query(value = "INSERT INTO comments (content, user_id, post_id, timestamp) VALUES (?1, ?2, ?3, ?4)", nativeQuery = true)
     void create(String content, Integer userId, Integer postId, Timestamp time);
 
     @Modifying
-    @Query("UPDATE comments SET content = ?1, timestamp = ?2 WHERE comment_id = ?3")
+    @Query(value = "UPDATE comments SET content = ?1, timestamp = ?2 WHERE comment_id = ?3", nativeQuery = true)
     void update(String content, Timestamp time, Integer commentId);
 
-    @Query("SELECT * FROM comments WHERE comment_id = ?1")
+    @Query(value = "SELECT * FROM comments WHERE comment_id = ?1", nativeQuery = true)
     Comment get(Integer commentId);
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM comments WHERE comment_id = ?1")
+    @Query(value = "DELETE FROM comments WHERE comment_id = ?1", nativeQuery = true)
     void delete(Integer commentId);
 
-    List<Comment> findByPostId(int postId);
+    List<Comment> findCommentByPostPostId(Integer postId);
 
 }

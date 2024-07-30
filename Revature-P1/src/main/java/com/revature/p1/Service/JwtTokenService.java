@@ -21,18 +21,18 @@ import javax.crypto.SecretKey;
 @Service
 public class JwtTokenService {
     //private final Environment environment; used for hard coding login
-    //String tempKey = "8aab27ecdeb314b8b40aecbe3444fc5efdd20ae9822394a61cc3c24b49fbcd08";
-    //private final SecretKey decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(tempKey));
+    String tempKey = "8aab27ecdeb314b8b40aecbe3444fc5efdd20ae9822394a61cc3c24b49fbcd08";
+    private final SecretKey decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(tempKey));
 
-    private final Environment environment;
-    private final SecretKey decodedKey;
+    //private final Environment environment;
+    //private final SecretKey decodedKey;
 
-    @Autowired
-    public JwtTokenService(Environment environment){
-        this.environment = environment;
-        String encodedKey = this.environment.getProperty("SECRET_KEY");
-        this.decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(encodedKey));
-    }
+    //@Autowired
+    //public JwtTokenService(Environment environment){
+       // this.environment = environment;
+        //String encodedKey = this.environment.getProperty("SECRET_KEY");
+        //this.decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(encodedKey));
+    //}
 
     public String generateToken(Map<String, String> claims) {
         JwtBuilder builder = Jwts.builder()

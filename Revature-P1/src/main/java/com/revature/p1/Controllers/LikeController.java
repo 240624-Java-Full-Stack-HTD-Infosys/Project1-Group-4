@@ -2,34 +2,40 @@ package com.revature.p1.Controllers;
 
 import com.revature.p1.Models.*;
 import com.revature.p1.Service.*;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
 public class LikeController {
-// FollowController should be the same - maybe put in UserController
+
     @Autowired
-    private LikeService likeService;
+    private final LikeService likeService;
 
-    @GetMapping("/posts/{post_id}/likes")
-    public ResponseEntity<List<Like>> getLikesForPost(@PathVariable("post_id") Integer postId) {
-        List<Like> likes = likeService.getLikesForPost(postId);
-        return ResponseEntity.body(likes);
+    public LikeController(LikeService likeService) {
+        this.likeService = likeService;
     }
 
-    @PostMapping("/posts/{post_id}/newLike")
-    public ResponseEntity<Like> createLike(@RequestParam Integer userId, @RequestParam Integer postId) {
-        likeService.createLike(userId, postId);
-        return ResponseEntity.status(200);
+    @GetMapping("/users/{userId}/likedPosts")
+    public List<Post> getUsersLikedPosts(@PathVariable Integer userId) {
+        return likeService.getPostsLikedByUser(userId);
     }
 
-    @DeleteMapping("/posts/{post_id}/deleteLike")
-    public ResponseEntity<Like> deleteLike(@RequestParam Integer userId, @RequestParam Integer postId) {
-        likeService.deleteLike(userId, postId);
-        return ResponseEntity.status(200);
+    @GetMapping("/posts/{postId}/likes")
+    public List<User> getUserLikesForPost(@PathVariable Integer postId) {
+        return likeService.getPostLikes(postId);
+    }
+
+    @PostMapping("/posts/{postId}/{userId}")
+    public void likePost(@PathVariable Integer postId, @PathVariable Integer userId){
+        likeService.likePost(userId, postId);
+    }
+
+    @DeleteMapping("/posts/{postId}/{userId}")
+    public void unlikePost(@PathVariable Integer postId, @PathVariable Integer userId){
+        likeService.unlikePost(userId, postId);
+    }
 
 }

@@ -2,8 +2,7 @@ package com.revature.p1.Service;
 
 import com.revature.p1.Exceptions.PostContentIsEmptyException;
 import com.revature.p1.Exceptions.PostNotFoundException;
-import com.revature.p1.Models.Post;
-import com.revature.p1.Models.User;
+import com.revature.p1.Models.*;
 import com.revature.p1.Repositories.PostRepository;
 import com.revature.p1.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
 public class PostService {
-    private PostRepository postRepo;
-    private UserRepository userRepo;
+    private final PostRepository postRepo;
+    private final UserRepository userRepo;
   
   @Autowired
   public PostService(PostRepository postRepository, UserRepository userRepository) {
@@ -38,27 +36,27 @@ public class PostService {
     }
 
     public Post getPostByPostId(int postId){
-        return postRepo.findByPostId(postId);
+        return postRepo.findPostByPostId(postId);
     }
 
     public List<Post> getPostsByUser(int userId){
-        return postRepo.findByUserId(userId);
+        return postRepo.findPostByUserId(userId);
     }
 
-    public void editPost(Post post){
-        Post currPost = postRepo.findByPostId(post.getPostId());
+    public Post editPost(int postId, Post post){
+        Post currPost = postRepo.findPostByPostId(postId);
         if(currPost == null){
             System.out.println("Post doesn't exist.");
             throw new PostNotFoundException("Post doesn't exist.");
         }
         else{
             currPost.setContent(post.getContent());
-            postRepo.save(currPost);
+            return postRepo.save(currPost);
         }
     }
 
     public void deletePost(int postId){
-        Post currPost = postRepo.findByPostId(postId);
+        Post currPost = postRepo.findPostByPostId(postId);
         if(currPost == null){
             System.out.println("Post doesn't exist.");
             throw new RuntimeException("Post doesn't exist.");
@@ -69,7 +67,7 @@ public class PostService {
     }
 
     public Post sharePost(int postId, int userId){
-        Post originalPost = postRepo.findByPostId(postId);
+        Post originalPost = postRepo.findPostByPostId(postId);
         if(originalPost == null){
             System.out.println("Original post does not exist.");
             throw new RuntimeException("Original post does not exist.");
@@ -84,7 +82,7 @@ public class PostService {
         Post sharePost = new Post();
 
         sharePost.setContent(originalPost.getContent());
-        sharePost.setUser(user);
+        sharePost.setAuthor(user);
         sharePost.setShares(0);
 
         originalPost.setShares(originalPost.getShares() + 1);
@@ -93,6 +91,12 @@ public class PostService {
         postRepo.save(originalPost);
 
         return sharePost;
+    }
+
+    // get post comments
+    public List<Comment> getCommentsByPost(Integer postId) {
+        Post post = postRepo.findPostByPostId(postId);
+        return post.getComments();
     }
 
 }
