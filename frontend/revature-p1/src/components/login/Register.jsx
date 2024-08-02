@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -48,10 +48,10 @@ const Register = () => {
           fname: firstname,
           lname: lastname,
           email: email,
-          bio: bio
+          bio: bio,
         },
         {
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
         }
       );
       console.log(response?.data);
@@ -140,7 +140,8 @@ const Register = () => {
         <button type="submit">Register</button>
       </form>
       <p>
-        Already have an Account?<br />
+        Already have an Account?
+        <br />
         <span className="line">
           <a href="/login">Login</a>
         </span>

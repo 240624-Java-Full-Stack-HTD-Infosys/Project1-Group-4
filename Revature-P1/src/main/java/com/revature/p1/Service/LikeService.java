@@ -30,23 +30,25 @@ public class LikeService {
     public void likePost(Integer userId, Integer postId) {
         User user = userRepo.findUserByUserId(userId);
         Post post = postRepo.findPostByPostId(postId);
-        if (user != null && post != null) {
-            user.getLikedPosts().add(post);
-            post.getUsersWhoLikeThisPost().add(user);
-            userRepo.save(user);
-            postRepo.save(post);
-        }
+        if (user == null || post == null)
+            return;
+
+        user.getLikedPosts().add(post);
+        post.getUsersWhoLikeThisPost().add(user);
+        userRepo.save(user);
+        postRepo.save(post);
     }
     // FIXME: delete like for a post
     public void unlikePost(Integer userId, Integer postId) {
         User user = userRepo.findUserByUserId(userId);
         Post post = postRepo.findPostByPostId(postId);
-        if (user != null && post != null) {
-            user.getLikedPosts().remove(post);
-            post.getUsersWhoLikeThisPost().remove(user);
-            userRepo.save(user);
-            postRepo.save(post);
-        }
+        if (user == null || post == null)
+            return;
+
+        user.getLikedPosts().remove(post);
+        post.getUsersWhoLikeThisPost().remove(user);
+        userRepo.save(user);
+        postRepo.save(post);
     }
 
     // get liked posts
