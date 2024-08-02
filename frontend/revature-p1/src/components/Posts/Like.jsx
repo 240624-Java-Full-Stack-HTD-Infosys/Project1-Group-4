@@ -11,6 +11,7 @@ function Like({ post, user }) {
 
   useEffect(() => {
     getLikes();
+    console.log(userList);
     setLike(userList.some((u) => u?.id === user?.id));
     setLikeNum(userList?.length);
   }, [post, user, userList]);
@@ -20,10 +21,7 @@ function Like({ post, user }) {
     const response = await axios.get(
       `http://localhost:8080/posts/${post.postId}/likes`
     );
-    setUserList(response.data);
-    // } catch (error) {
-    //   alert("Couldn't find post likes!");
-    // }
+    if (response.status === 200) setUserList(response.data);
   };
 
   const handleLike = async (e) => {
@@ -32,9 +30,7 @@ function Like({ post, user }) {
       `http://localhost:8080/posts/${post.postId}/${user?.userId}`,
       { headers: { "Content-Type": "application/json" } }
     );
-    if (response.status === 200) {
-      setLike(true);
-    }
+    if (response.status === 200) setLike(true);
   };
 
   const handleUnlike = async (e) => {
@@ -43,9 +39,7 @@ function Like({ post, user }) {
       `http://localhost:8080/posts/${post.postId}/${user?.userId}`,
       { headers: { "Content-Type": "application/json" } }
     );
-    if (response.status === 200) {
-      setLike(false);
-    }
+    if (response.status === 200) setLike(false);
   };
 
   if (!user) {

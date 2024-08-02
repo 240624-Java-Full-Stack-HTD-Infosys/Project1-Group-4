@@ -23,7 +23,6 @@ public class LikeService {
         this.userRepo = userRepo;
         this.postRepo = postRepo;
 //        this.commentRepo = commentRepo;
-
     }
 
     // createComment like for a post
@@ -38,7 +37,7 @@ public class LikeService {
         userRepo.save(user);
         postRepo.save(post);
     }
-    // FIXME: delete like for a post
+
     public void unlikePost(Integer userId, Integer postId) {
         User user = userRepo.findUserByUserId(userId);
         Post post = postRepo.findPostByPostId(postId);
